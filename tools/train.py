@@ -47,45 +47,44 @@ if __name__ == '__main__':
 	results = {'train_loss': [], 'test_acc': []}
 
 	for epoch in range(epoch_start, opt.nepoch + 1):
-	    model.train()
-	    total_loss, total_num, train_bar = 0.0, 0, tqdm(train_loader)
-	    
-	    for points, label in train_bar:
-	        points, label = points.cuda(), label.cuda()
+		model.train()
+		total_loss, total_num, train_bar = 0.0, 0, tqdm(train_loader)
 
-	        optimizer.zero_grad()
+		for points, label in train_bar:
+			points, label = points.cuda(), label.cuda()
 
-	        out = model(points)
+			optimizer.zero_grad()
 
-	        loss = criterion(out, label.flatten())
-	        loss.backward()
-	        optimizer.step()
+			out = model(points)
 
-	        total_loss += loss.item()
-	        total_num += points.size(0)
-	        train_bar.set_description('Train Epoch: [{}/{}] Loss: {:.4f}'.format(epoch, opt.nepoch, total_loss / total_num))
+			loss = criterion(out, label.flatten())
+			loss.backward()
+			optimizer.step()
 
-	    results['train_loss'].append(total_loss / total_num)
+			total_loss += loss.item()
+			total_num += points.size(0)
+			train_bar.set_description('Train Epoch: [{}/{}] Loss: {:.4f}'.format(epoch, opt.nepoch, total_loss / total_num))
 
-	    model.eval()
+		results['train_loss'].append(total_loss / total_num)
 
-	    total_top1, total_num, test_bar = 0.0, 0, tqdm(test_loader)
-	    with torch.no_grad():
+		model.eval()
 
-	    	for points, label in test_bar:
-	        	points, label = points.cuda(), label.cuda()
+		total_top1, total_num, test_bar = 0.0, 0, tqdm(test_loader)
+		with torch.no_grad():
 
-	        	out = model(points)
+			for points, label in test_bar:
+				points, label = points.cuda(), label.cuda()
 
-	        	_, pred = out.topk(1, 1, True)
-			    correct = pred.T.eq(label.view(1, -1))
+				out = model(points)
 
-			    total_top1 += correct.float().sum().item()
-			    total_num += points.size(0)
-	        	test_bar.set_description('Test Epoch: [{}/{}] Acc:{:.2f}%'
-												.format(epoch, opt.nepoch, total_top1 / total_num * 100))
+				_, pred = out.topk(1, 1, True)
+				correct = pred.T.eq(label.view(1, -1))
 
-        test_acc_1 = total_top1 / total_num * 100
+				total_top1 += correct.float().sum().item()
+				total_num += points.size(0)
+				test_bar.set_description('Test Epoch: [{}/{}] Acc:{:.2f}%'.format(epoch, opt.nepoch, total_top1 / total_num * 100))
+
+		test_acc_1 = total_top1 / total_num * 100
 		results['test_acc'].append(test_acc_1)
 
 		data_frame = pd.DataFrame(data=results, index=range(epoch_start, opt.nepoch + 1))
