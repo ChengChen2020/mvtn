@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision.models import resnet
 
-# from lib.utils import *
+from lib.utils import *
 
 class mvtn(nn.Module):
     def __init__(self, b=40, M=12, num_views=12, distance=3., device='cuda:0'):
@@ -86,7 +86,7 @@ class mvtn(nn.Module):
         # print(R.shape, T.shape)
         # image = phong_renderer(meshes_world=meshes.clone().extend(self.num_views), R=R, T=T)
 
-        images = [points_renderer(
+        images = [points_renderer(self.device)(
             point_clouds[i].clone().extend(self.num_views), 
             R=RT[i][0],
             T=RT[i][1],
