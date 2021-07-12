@@ -1,6 +1,7 @@
 import _init_paths
 
 import argparse
+import pandas as pd
 from tqdm import tqdm
 
 import torch
@@ -87,8 +88,8 @@ if __name__ == '__main__':
 		test_acc_1 = total_top1 / total_num * 100
 		results['test_acc'].append(test_acc_1)
 
-		data_frame = pd.DataFrame(data=results, index=range(epoch_start, opt.nepoch + 1))
-		data_frame.to_csv(log_dir + '/log.csv', index_label='epoch')
+		data_frame = pd.DataFrame(data=results, index=range(epoch_start, epoch + 1))
+		data_frame.to_csv(opt.log_dir + '/log.csv', index_label='epoch')
 		
 		if test_acc_1 > best_acc:
 			best_acc = test_acc_1
