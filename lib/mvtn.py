@@ -5,7 +5,7 @@ from torchvision.models import resnet
 from lib.utils import *
 
 class mvtn(nn.Module):
-    def __init__(self, b=40, M=12, num_views=12, distance=3., device='cuda:0'):
+    def __init__(self, b=40, M=12, num_views=12, distance=2.5, device=torch.device('cuda:0')):
         super(mvtn, self).__init__()
         self.b = b
         self.M = M

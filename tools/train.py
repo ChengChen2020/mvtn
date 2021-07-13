@@ -15,6 +15,7 @@ parser.add_argument('--dataset_dir', type=str, default='./datasets', help='model
 parser.add_argument('--batch_size', type=int, default=2, help='batch size')
 parser.add_argument('--lr', default=0.05, help='learning rate')
 parser.add_argument('--lr_rate', default=0.3, help='learning rate decay rate')
+parser.add_argument('--wd_rate', default=0.01, help='weight dacay')
 parser.add_argument('--nepoch', type=int, default=10, help='max number of epochs to train')
 parser.add_argument('--start_epoch', type=int, default=1, help='which epoch to start')
 parser.add_argument('--log_dir', type=str, default='./experiments/logs')
@@ -28,7 +29,7 @@ if __name__ == '__main__':
 	criterion = nn.CrossEntropyLoss()
 	model = mvtn(device=device)
 	model = nn.DataParallel(model, device_ids=[0]).cuda()
-	optimizer = torch.optim.Adam(model.parameters(), lr=opt.lr)
+	optimizer = torch.optim.Adam(model.parameters(), lr=opt.lr, weight_decay=opt.wd_rate)
 
 	epoch_start = opt.start_epoch
 
