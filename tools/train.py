@@ -12,7 +12,7 @@ from lib.mvtn import mvtn
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset_dir', type=str, default='./datasets', help='modelnet40')
-parser.add_argument('--batch_size', type=int, default=2, help='batch size')
+parser.add_argument('--batch_size', type=int, default=16, help='batch size')
 parser.add_argument('--lr', default=0.05, help='learning rate')
 parser.add_argument('--lr_rate', default=0.3, help='learning rate decay rate')
 parser.add_argument('--wd_rate', default=0.01, help='weight dacay')
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 	criterion = nn.CrossEntropyLoss()
 	model = mvtn(device=device)
 	model = nn.DataParallel(model, device_ids=[0]).cuda()
-	optimizer = torch.optim.Adam(model.parameters(), lr=opt.lr, weight_decay=opt.wd_rate)
+	optimizer = torch.optim.Adam(model.parameters(), lr=opt.lr)
 
 	epoch_start = opt.start_epoch
 
