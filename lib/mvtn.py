@@ -42,15 +42,15 @@ class mvtn(nn.Module):
         )
 
         self.mvtn_regressor = nn.Sequential(
-            nn.Linear(b + 2 * M, b),
+            nn.Linear(b + 2 * self.M, b),
                 nn.BatchNorm1d(b), nn.ReLU(), nn.Dropout(p=0.5),
             nn.Linear(b, b),
                 nn.BatchNorm1d(b), nn.ReLU(), nn.Dropout(p=0.5),
-            nn.Linear(b, 5 * M),
-                nn.BatchNorm1d(5 * M), nn.ReLU(), nn.Dropout(p=0.5),
-            nn.Linear(5 * M, 2 * M),
-                nn.BatchNorm1d(2 * M), nn.ReLU(), nn.Dropout(p=0.5),
-            nn.Linear(2 * M, 2 * M),
+            nn.Linear(b, 5 * self.M),
+                nn.BatchNorm1d(5 * self.M), nn.ReLU(), nn.Dropout(p=0.5),
+            nn.Linear(5 * self.M, 2 * self.M),
+                nn.BatchNorm1d(2 * self.M), nn.ReLU(), nn.Dropout(p=0.5),
+            nn.Linear(2 * self.M, 2 * self.M),
             nn.Tanh()
         )
 
@@ -67,7 +67,7 @@ class mvtn(nn.Module):
 
         x = x.unsqueeze(-1)
         x = self.point_net(x)
-        # Random initialization for scene parameters
+        # Initialization for scene parameters
         b = torch.zeros(bs, 2 * self.M).to(self.device)
         x = torch.cat((x, b), dim=1)
         
