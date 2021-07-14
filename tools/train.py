@@ -53,8 +53,8 @@ if __name__ == '__main__':
 	results = {'train_loss': [], 'test_acc': []}
 
 	cur_time = time.strftime("%d-%m-%Y_%H-%M-%S")
-	log_file = '{0}/log_{1}.csv'.format(opt.log_dir, opt.cur_time)
-	config_file = '{0}/config_{1}.json'.format(opt.log_dir, opt.cur_time)
+	log_file = '{0}/log_{1}.csv'.format(opt.log_dir, cur_time)
+	config_file = '{0}/config_{1}.json'.format(opt.log_dir, cur_time)
 
 	with open(config_file, 'w') as f:
 		json.dump(vars(opt), f)
