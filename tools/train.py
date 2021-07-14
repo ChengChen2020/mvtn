@@ -1,5 +1,6 @@
 import _init_paths
 
+import time
 import argparse
 import pandas as pd
 from tqdm import tqdm
@@ -15,7 +16,11 @@ parser.add_argument('--dataset_dir', type=str, default='./datasets', help='model
 parser.add_argument('--batch_size', type=int, default=16, help='batch size')
 parser.add_argument('--lr', default=0.05, help='learning rate')
 parser.add_argument('--lr_rate', default=0.3, help='learning rate decay rate')
+<<<<<<< HEAD
 parser.add_argument('--wd_rate', default=0.01, help='weight dacay')
+=======
+parser.add_argument('--wd_rate', default=0.001, help='weight dacay')
+>>>>>>> hpc
 parser.add_argument('--nepoch', type=int, default=10, help='max number of epochs to train')
 parser.add_argument('--start_epoch', type=int, default=1, help='which epoch to start')
 parser.add_argument('--log_dir', type=str, default='./experiments/logs')
@@ -48,6 +53,11 @@ if __name__ == '__main__':
 	best_acc = 0.0
 	results = {'train_loss': [], 'test_acc': []}
 
+<<<<<<< HEAD
+=======
+	log_file = opt.log_dir + '/log_' + time.strftime("%d-%m-%Y_%H-%M-%S") + '.csv'
+
+>>>>>>> hpc
 	for epoch in range(epoch_start, opt.nepoch + 1):
 		model.train()
 		total_loss, total_num, train_bar = 0.0, 0, tqdm(train_loader)
@@ -90,10 +100,8 @@ if __name__ == '__main__':
 		results['test_acc'].append(test_acc_1)
 
 		data_frame = pd.DataFrame(data=results, index=range(epoch_start, epoch + 1))
-		data_frame.to_csv(opt.log_dir + '/log.csv', index_label='epoch')
+		data_frame.to_csv(log_file, index_label='epoch')
 		
 		if test_acc_1 > best_acc:
 			best_acc = test_acc_1
 			torch.save({'epoch': epoch, 'state_dict': model.state_dict()}, '{0}/model_{1}_{2}.pth'.format(opt.log_dir, epoch, test_acc_1))
-
-

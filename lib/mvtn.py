@@ -68,7 +68,7 @@ class mvtn(nn.Module):
         x = x.unsqueeze(-1)
         x = self.point_net(x)
         # Random initialization for scene parameters
-        b = torch.randn(bs, 2 * self.M).to(self.device)
+        b = torch.zeros(bs, 2 * self.M).to(self.device)
         x = torch.cat((x, b), dim=1)
         
         # Renderer
