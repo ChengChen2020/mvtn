@@ -19,7 +19,7 @@ def points_renderer(device):
     points_raster_settings = PointsRasterizationSettings(
         image_size=224,
         radius = 0.01,
-        points_per_pixel = 140
+        points_per_pixel = 140,
     )
 
     return PointsRenderer(
@@ -40,6 +40,7 @@ def mesh_renderer(device):
         image_size=224,
         blur_radius=0.0,
         faces_per_pixel=1,
+        perspective_correct=False
     )
 
     return MeshRenderer(

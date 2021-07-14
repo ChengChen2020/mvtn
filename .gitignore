@@ -1,3 +1,8 @@
 __pycache__/
+penv/
+modelnet40_ply_hdf5_2048/
 
 .DS_Store
+
+*.pth
+*.out
