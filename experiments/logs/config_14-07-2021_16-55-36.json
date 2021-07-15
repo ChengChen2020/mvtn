@@ -1,0 +1,1 @@
+{"dataset_dir": "./datasets", "batch_size": 16, "lr": 0.05, "lr_rate": 0.3, "wd_rate": 0.001, "distance": 3.0, "num_views": 12, "nepoch": 20, "start_epoch": 1, "log_dir": "./experiments/logs", "resume": ""}
